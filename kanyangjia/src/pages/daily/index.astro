@@ -1,0 +1,118 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = '每日复盘 - 看养家';
+const description = '人生4万天，每日记录成长';
+---
+
+<Layout title={title} description={description}>
+  <div style="text-align: center; margin-bottom: 3rem;">
+    <h1>📅 每日复盘</h1>
+    <p style="color: var(--color-muted);">人生是一场修行，每一天都算数</p>
+  </div>
+
+  <!-- 快速导航 -->
+  <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap;">
+    <a href="#template" style="padding: 0.5rem 1rem; background: var(--color-card); border-radius: 20px; font-size: 0.875rem;">📝 复盘模板</a>
+    <a href="#entries" style="padding: 0.5rem 1rem; background: var(--color-card); border-radius: 20px; font-size: 0.875rem;">📚 历史记录</a>
+    <a href="#stats" style="padding: 0.5rem 1rem; background: var(--color-card); border-radius: 20px; font-size: 0.875rem;">📊 数据统计</a>
+  </div>
+
+  <!-- 今日入口 -->
+  <section style="padding: 2rem; background: linear-gradient(135deg, var(--color-card), #2a2a2a); border-radius: 12px; margin-bottom: 3rem; border: 1px solid var(--color-border);">
+    <h2 style="margin-bottom: 1rem;">🌟 今日复盘入口</h2>
+    <p style="color: var(--color-muted); margin-bottom: 1.5rem;">记录当下，沉淀思考</p>
+    <a href="/daily/new" style="display: inline-block; padding: 0.75rem 1.5rem; background: var(--color-accent); color: white; border-radius: 8px; font-weight: 500;">
+      + 写今日复盘
+    </a>
+  </section>
+
+  <!-- 复盘体系 -->
+  <section id="system" style="margin-bottom: 3rem;">
+    <h2 style="margin-bottom: 1.5rem; border-left: 4px solid var(--color-accent); padding-left: 1rem;">🎯 复盘体系</h2>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+      <div style="padding: 1.5rem; background: var(--color-card); border-radius: 8px;">
+        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🌅</div>
+        <h4>每日计划</h4>
+        <p style="font-size: 0.875rem; color: var(--color-muted);">THE ONE · 核心项目 · 能量滋养</p>
+      </div>
+
+      <div style="padding: 1.5rem; background: var(--color-card); border-radius: 8px;">
+        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🌙</div>
+        <h4>每日记录</h4>
+        <p style="font-size: 0.875rem; color: var(--color-muted);">战果盘点 · 情绪切片 · 明日一事</p>
+      </div>
+
+      <div style="padding: 1.5rem; background: var(--color-card); border-radius: 8px;">
+        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📊</div>
+        <h4>人生周报</h4>
+        <p style="font-size: 0.875rem; color: var(--color-muted);">周回顾 · 数据汇总 · 下周规划</p>
+      </div>
+
+      <div style="padding: 1.5rem; background: var(--color-card); border-radius: 8px;">
+        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🎯</div>
+        <h4>季度复盘</h4>
+        <p style="font-size: 0.875rem; color: var(--color-muted);">OKR进度 · 年度40问 · 人生4万天</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 模板说明 -->
+  <section id="template" style="margin-bottom: 3rem;">
+    <h2 style="margin-bottom: 1.5rem; border-left: 4px solid var(--color-accent); padding-left: 1rem;">📝 复盘模板</h2>
+    
+    <div style="padding: 1.5rem; background: var(--color-card); border-radius: 8px; overflow-x: auto;">
+      <pre style="font-family: var(--font-mono); font-size: 0.875rem; line-height: 1.8; color: #ccc;"><code>---
+title: "每日人生复盘"
+date: "2026-02-05"
+day: "Day X / 12,800"
+---
+
+## ☀️ PART 1：目标
+
+### 🔥 必须拿下 (THE ONE)
+╰┈➤ 股体系up
+
+### 🏗️ 核心项目 (BUILD)
+- 💼 [工作] 
+- 🏠 [装修] 
+- 📣 [分享] 
+
+### 🌿 能量滋养 (NOURISH)
+- ☕ [咖啡] 
+- 📚 [阅读] 
+- 🏃 [锻炼] 
+
+### 🛒 备忘 (MEMO)
+
+## 🌙 PART 2：记录
+
+### 🎯 战果盘点（TOP3）
+- **[ 核心 ]：** ____________________ 
+- **[ 事项 ]：** ____________________ 
+- **[ 事项 ]：** ____________________ 
+
+### 🧠 情绪切片（TOP3）
+* 🔥 燃-感动：
+* 🤔 思-困惑：
+* 🌧️ 丧-失望：
+
+### 🚀 明日一件事
+
+### 📎 附件 & 配图
+</code></pre>
+    </div>
+  </section>
+
+  <!-- 历史记录 -->
+  <section id="entries">
+    <h2 style="margin-bottom: 1.5rem; border-left: 4px solid var(--color-accent); padding-left: 1rem;">📚 历史记录</h2>
+    
+    <div style="padding: 2rem; text-align: center; color: var(--color-muted); background: var(--color-card); border-radius: 8px;">
+      <p>📝 暂无记录</p>
+      <p style="font-size: 0.875rem; margin-top: 0.5rem;">开始撰写你的第一篇复盘吧！</p>
+    </div>
+  </section>
+
+</Layout>

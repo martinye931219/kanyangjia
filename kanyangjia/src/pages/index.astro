@@ -1,0 +1,84 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = '看养家 - 个人成长宇宙';
+const description = '记录成长，格物自知 - AI+个人成长、A+H股票、AMC、咖啡';
+
+// 计算人生进度
+const birthDate = new Date('1995-01-01'); // 示例生日，后续可配置
+const today = new Date();
+const daysLived = Math.floor((today - birthDate) / (1000 * 60 * 60 * 24));
+const totalDays = 365 * 80; // 假设80岁
+const progressPercent = ((daysLived / totalDays) * 100).toFixed(2);
+---
+
+<Layout title={title} description={description}>
+  <!-- Hero Section -->
+  <section style="text-align: center; padding: 4rem 0;">
+    <h1 style="font-size: 3rem; margin-bottom: 1rem; background: linear-gradient(135deg, #e74c3c, #3498db); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+      看养家
+    </h1>
+    <p style="font-size: 1.25rem; color: var(--color-muted); margin-bottom: 2rem;">
+      记录成长，格物自知
+    </p>
+    
+    <!-- 人生4万天进度 -->
+    <div style="max-width: 600px; margin: 2rem auto; padding: 1.5rem; background: var(--color-card); border-radius: 12px;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+        <span>人生进度</span>
+        <span style="color: var(--color-accent);">Day {daysLived.toLocaleString()} / {totalDays.toLocaleString()}</span>
+      </div>
+      <div style="width: 100%; height: 8px; background: var(--color-border); border-radius: 4px; overflow: hidden;">
+        <div style={`width: ${progressPercent}%; height: 100%; background: linear-gradient(90deg, #e74c3c, #3498db); transition: width 1s ease;`}></div>
+      </div>
+      <p style="font-size: 0.875rem; color: var(--color-muted); margin-top: 0.5rem;">
+        已度过 {progressPercent}% 的人生旅程
+      </p>
+    </div>
+  </section>
+
+  <!-- 内容导航 -->
+  <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 3rem;">
+    
+    <a href="/daily" style="padding: 1.5rem; background: var(--color-card); border-radius: 12px; border: 1px solid var(--color-border); transition: all 0.3s; hover: { border-color: 'var(--color-accent)' };">
+      <div style="font-size: 2rem; margin-bottom: 0.5rem;">📅</div>
+      <h3 style="margin-bottom: 0.5rem;">每日复盘</h3>
+      <p style="color: var(--color-muted); font-size: 0.875rem;">人生4万天 · 每日记录 · 周报复盘</p>
+    </a>
+
+    <a href="/ai" style="padding: 1.5rem; background: var(--color-card); border-radius: 12px; border: 1px solid var(--color-border);">
+      <div style="font-size: 2rem; margin-bottom: 0.5rem;">🤖</div>
+      <h3 style="margin-bottom: 0.5rem;">AI + 个人成长</h3>
+      <p style="color: var(--color-muted); font-size: 0.875rem;">AI工具箱 · 工作流 · 格物自知</p>
+    </a>
+
+    <a href="/stock" style="padding: 1.5rem; background: var(--color-card); border-radius: 12px; border: 1px solid var(--color-border);">
+      <div style="font-size: 2rem; margin-bottom: 0.5rem;">📈</div>
+      <h3 style="margin-bottom: 0.5rem;">A + H 股票</h3>
+      <p style="color: var(--color-muted); font-size: 0.875rem;">行业分析 · 个股深扒 · AI炒股</p>
+    </a>
+
+    <a href="/amc" style="padding: 1.5rem; background: var(--color-card); border-radius: 12px; border: 1px solid var(--color-border);">
+      <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏛️</div>
+      <h3 style="margin-bottom: 0.5rem;">AMC</h3>
+      <p style="color: var(--color-muted); font-size: 0.875rem;">学习笔记 · 政策速递 · AI+AMC</p>
+    </a>
+
+    <a href="/coffee" style="padding: 1.5rem; background: var(--color-card); border-radius: 12px; border: 1px solid var(--color-border);">
+      <div style="font-size: 2rem; margin-bottom: 0.5rem;">☕</div>
+      <h3 style="margin-bottom: 0.5rem;">咖啡</h3>
+      <p style="color: var(--color-muted); font-size: 0.875rem;">每日手冲 · 豆子红黑榜 · 探店</p>
+    </a>
+
+  </section>
+
+  <!-- 最新动态 -->
+  <section style="margin-top: 4rem;">
+    <h2 style="margin-bottom: 1.5rem; border-left: 4px solid var(--color-accent); padding-left: 1rem;">最新动态</h2>
+    <div style="padding: 2rem; background: var(--color-card); border-radius: 12px; text-align: center; color: var(--color-muted);">
+      <p>🚧 内容持续建设中... </p>
+      <p style="margin-top: 1rem; font-size: 0.875rem;">开始撰写你的第一篇内容吧！</p>
+    </div>
+  </section>
+
+</Layout>

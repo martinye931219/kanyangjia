@@ -1,0 +1,58 @@
+---
+const { title, description = '看养家 - 个人成长宇宙' } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <style is:global>
+    :root {
+      --color-bg: #fafafa;
+      --color-text: #1a1a1a;
+      --color-accent: #e74c3c;
+      --color-secondary: #3498db;
+      --color-muted: #666;
+      --color-border: #e0e0e0;
+      --color-card: #ffffff;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'SF Mono', Monaco, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    a { color: var(--color-accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    img { max-width: 100%; height: auto; }
+  </style>
+</head>
+<body>
+  <header style="padding: 1rem 2rem; border-bottom: 1px solid var(--color-border); display: flex; justify-content: space-between; align-items: center; background: var(--color-card);">
+    <a href="/" style="font-size: 1.5rem; font-weight: bold; color: var(--color-text);">看养家</a>
+    <nav style="display: flex; gap: 1.5rem;">
+      <a href="/daily">每日</a>
+      <a href="/ai">AI+成长</a>
+      <a href="/stock">股票</a>
+      <a href="/amc">AMC</a>
+      <a href="/coffee">咖啡</a>
+    </nav>
+  </header>
+  
+  <main style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
+    <slot />
+  </main>
+  
+  <footer style="text-align: center; padding: 2rem; color: var(--color-muted); border-top: 1px solid var(--color-border); margin-top: 4rem; background: var(--color-card);">
+    <p>看养家 - 记录成长，格物自知</p>
+    <p style="font-size: 0.875rem; margin-top: 0.5rem;">人生是一场修行，每一天都算数</p>
+  </footer>
+</body>
+</html>

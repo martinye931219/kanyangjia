@@ -9,28 +9,28 @@ permissions:
   pages: write
   id-token: write
 
+defaults:
+  run:
+    working-directory: kanyangjia
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+      
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: npm
 
-      - name: Install and Build
-        run: |
-          cd kanyangjia
-          npm ci
-          npm run build
+      - run: npm ci
+      - run: npm run build
 
       - uses: actions/configure-pages@v4
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: ./kanyangjia/dist
+          path: kanyangjia/dist
 
   deploy:
     environment:

@@ -1,0 +1,297 @@
+backend:
+  name: git-gateway
+  branch: main
+  
+# 本地开发时使用文件系统（可选）
+# backend:
+#   name: proxy
+#   proxy_url: http://localhost:8081/api/v1
+
+# 站点信息
+site_url: https://kanyangjia.com
+logo_url: https://kanyangjia.com/logo.svg
+
+# 媒体文件配置
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+# 搜索配置
+search: true
+
+# 编辑器配置
+editor:
+  preview: true
+
+# 集合配置
+collections:
+  # ============================================
+  # 1. 每日复盘 (Daily)
+  # ============================================
+  - name: "daily"
+    label: "📅 每日复盘"
+    folder: "src/content/daily"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    sortable_fields: ['date', 'title', 'commit_date']
+    view_filters:
+      - label: 今日
+        field: date
+        pattern: '{{year}}-{{month}}-{{day}}'
+      - label: 本周
+        field: date
+        pattern: '{{year}}-W{{week}}'
+    fields:
+      - { label: "标题", name: "title", widget: "string", required: true }
+      - { label: "日期", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: true }
+      - { label: "Day计数", name: "day", widget: "string", hint: "例如: Day 2,926 / 12,800", required: false }
+      - { label: "心情", name: "mood", widget: "select", options: [
+          { label: "🔥 燃 (兴奋/动力)", value: "🔥" },
+          { label: "🍃 静 (平静/满足)", value: "🍃" },
+          { label: "🤔 思 (思考/困惑)", value: "🤔" },
+          { label: "🌪️ 躁 (焦虑/烦躁)", value: "🌪️" },
+          { label: "🌧️ 丧 (低落/疲惫)", value: "🌧️" }
+        ], default: "🔥", required: false }
+      - { label: "标签", name: "tags", widget: "list", default: ["复盘"], required: false }
+      
+      # 今日完成
+      - label: "今日完成"
+        name: "completed"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "完成事项", name: "item", widget: "string" }
+      
+      # 反思
+      - { label: "反思", name: "reflection", widget: "text", required: false, hint: "今日的思考、感悟或教训" }
+      
+      # 明日计划
+      - label: "明日计划"
+        name: "tomorrow_plan"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "计划事项", name: "item", widget: "string" }
+      
+      # 正文内容
+      - { label: "正文内容", name: "body", widget: "markdown", required: false }
+
+  # ============================================
+  # 2. AI+成长 (AI)
+  # ============================================
+  - name: "ai"
+    label: "🤖 AI+成长"
+    folder: "src/content/ai"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "标题", name: "title", widget: "string", required: true }
+      - { label: "日期", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: true }
+      - { label: "分类", name: "category", widget: "select", options: [
+          { label: "AI工具", value: "ai-tools" },
+          { label: "AI工作流", value: "ai-workflow" },
+          { label: "AI思考", value: "ai-thoughts" },
+          { label: "个人反思", value: "self-reflection" }
+        ], default: "ai-tools", required: true }
+      - { label: "标签", name: "tags", widget: "list", default: ["AI"], required: false }
+      
+      # 工具名称
+      - { label: "工具名称", name: "tool_name", widget: "string", required: false, hint: "例如: Cursor, Claude, ChatGPT" }
+      
+      # 工具分类
+      - { label: "工具分类", name: "tool_category", widget: "select", options: [
+          { label: "编程", value: "编程" },
+          { label: "写作", value: "写作" },
+          { label: "设计", value: "设计" },
+          { label: "数据分析", value: "数据分析" },
+          { label: "自动化", value: "自动化" },
+          { label: "其他", value: "其他" }
+        ], required: false }
+      
+      # 使用场景
+      - { label: "使用场景", name: "use_case", widget: "text", required: false, hint: "这个工具用来解决什么问题" }
+      
+      # 效果评价
+      - { label: "效果评价", name: "rating", widget: "number", value_type: "int", min: 1, max: 5, default: 4, required: false }
+      
+      # 操作步骤摘要
+      - label: "操作步骤"
+        name: "steps_summary"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "步骤", name: "step", widget: "string" }
+      
+      # 正文内容
+      - { label: "正文内容", name: "body", widget: "markdown", required: true }
+
+  # ============================================
+  # 3. 股票 (Stock)
+  # ============================================
+  - name: "stock"
+    label: "📈 股票"
+    folder: "src/content/stock"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "标题", name: "title", widget: "string", required: true }
+      - { label: "日期", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: true }
+      - { label: "分类", name: "category", widget: "select", options: [
+          { label: "行业分析", value: "industry" },
+          { label: "个股分析", value: "analysis" },
+          { label: "每日复盘", value: "daily-review" },
+          { label: "AI交易", value: "ai-trading" }
+        ], default: "analysis", required: true }
+      - { label: "标签", name: "tags", widget: "list", default: ["股票"], required: false }
+      
+      # 股票代码
+      - { label: "股票代码", name: "stock_code", widget: "string", required: false, hint: "例如: 601872, 00700.HK" }
+      
+      # 分析类型
+      - { label: "分析类型", name: "analysis_type", widget: "select", options: [
+          { label: "基本面", value: "基本面" },
+          { label: "技术面", value: "技术面" },
+          { label: "消息面", value: "消息面" },
+          { label: "资金面", value: "资金面" },
+          { label: "综合", value: "综合" }
+        ], required: false }
+      
+      # 观点
+      - { label: "观点", name: "viewpoint", widget: "select", options: [
+          { label: "看多", value: "看多" },
+          { label: "看空", value: "看空" },
+          { label: "中性", value: "中性" },
+          { label: "观望", value: "观望" }
+        ], required: false }
+      
+      # 数据支撑
+      - { label: "数据支撑", name: "data_support", widget: "text", required: false, hint: "关键数据和分析依据" }
+      
+      # 风险提示
+      - { label: "风险提示", name: "risk_warning", widget: "text", required: false }
+      
+      # 目标价
+      - { label: "目标价", name: "target_price", widget: "string", required: false, hint: "例如: ¥15.50" }
+      
+      # 止损价
+      - { label: "止损价", name: "stop_loss", widget: "string", required: false, hint: "例如: ¥12.00" }
+      
+      # 正文内容
+      - { label: "正文内容", name: "body", widget: "markdown", required: true }
+
+  # ============================================
+  # 4. AMC (Asset Management Company)
+  # ============================================
+  - name: "amc"
+    label: "🏦 AMC笔记"
+    folder: "src/content/amc"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "标题", name: "title", widget: "string", required: true }
+      - { label: "日期", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: true }
+      - { label: "分类", name: "category", widget: "select", options: [
+          { label: "AMC笔记", value: "amc-notes" },
+          { label: "政策解读", value: "amc-policy" },
+          { label: "AI应用", value: "amc-ai" }
+        ], default: "amc-notes", required: true }
+      - { label: "标签", name: "tags", widget: "list", default: ["AMC"], required: false }
+      
+      # 政策/笔记类型
+      - { label: "笔记类型", name: "note_type", widget: "select", options: [
+          { label: "政策解读", value: "政策解读" },
+          { label: "行业动态", value: "行业动态" },
+          { label: "公司公告", value: "公司公告" },
+          { label: "个人笔记", value: "个人笔记" },
+          { label: "研报摘要", value: "研报摘要" }
+        ], required: false }
+      
+      # 重要程度
+      - { label: "重要程度", name: "importance", widget: "select", options: [
+          { label: "🔴 高", value: "🔴 高" },
+          { label: "🟡 中", value: "🟡 中" },
+          { label: "🟢 低", value: "🟢 低" }
+        ], required: false }
+      
+      # 要点
+      - label: "要点"
+        name: "key_points"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "要点内容", name: "point", widget: "string" }
+      
+      # 影响分析
+      - { label: "影响分析", name: "impact_analysis", widget: "text", required: false }
+      
+      # 关联标的
+      - label: "关联标的"
+        name: "related_stocks"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "股票代码/名称", name: "stock", widget: "string" }
+      
+      # 正文内容
+      - { label: "正文内容", name: "body", widget: "markdown", required: true }
+
+  # ============================================
+  # 5. 咖啡 (Coffee)
+  # ============================================
+  - name: "coffee"
+    label: "☕ 咖啡"
+    folder: "src/content/coffee"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "标题", name: "title", widget: "string", required: true }
+      - { label: "日期", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: true }
+      - { label: "分类", name: "category", widget: "select", options: [
+          { label: "日常记录", value: "daily" },
+          { label: "咖啡豆", value: "beans" },
+          { label: "探店", value: "shop" },
+          { label: "器具", value: "gear" }
+        ], default: "daily", required: true }
+      - { label: "标签", name: "tags", widget: "list", default: ["咖啡"], required: false }
+      - { label: "评分", name: "rating", widget: "number", value_type: "int", min: 1, max: 5, default: 4, required: false }
+      
+      # 豆子信息
+      - label: "豆子信息"
+        name: "coffee"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "豆子名称", name: "name", widget: "string", required: false }
+          - { label: "烘焙商", name: "roaster", widget: "string", required: false }
+          - { label: "产地", name: "origin", widget: "string", required: false, hint: "例如: 埃塞俄比亚, 耶加雪菲" }
+          - { label: "处理法", name: "process", widget: "string", required: false, hint: "例如: 水洗, 日晒, 蜜处理" }
+          - { label: "烘焙度", name: "roast", widget: "select", options: ["浅烘", "中浅烘", "中烘", "中深烘", "深烘"], required: false }
+          - { label: "豆种", name: "variety", widget: "string", required: false, hint: "例如: 瑰夏, 铁皮卡, 波旁" }
+      
+      # 冲煮参数
+      - label: "冲煮参数"
+        name: "brewing"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "冲煮方式", name: "method", widget: "select", options: ["手冲", "意式机", "摩卡壶", "法压壶", "冷萃", "爱乐压", "其他"], required: false }
+          - { label: "水温", name: "temp", widget: "string", required: false, hint: "例如: 93°C" }
+          - { label: "粉水比", name: "ratio", widget: "string", required: false, hint: "例如: 1:15" }
+          - { label: "研磨度", name: "grind", widget: "string", required: false, hint: "例如: 中细研磨" }
+          - { label: "冲煮时间", name: "time", widget: "string", required: false, hint: "例如: 2分30秒" }
+          - { label: "器具", name: "equipment", widget: "string", required: false, hint: "例如: V60,  origami" }
+      
+      # 风味描述
+      - label: "风味描述"
+        name: "flavor"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "香气", name: "aroma", widget: "list", required: false }
+          - { label: "酸度", name: "acidity", widget: "select", options: ["低", "中低", "中等", "中高", "高"], required: false }
+          - { label: "醇厚度", name: "body", widget: "select", options: ["轻盈", "中等", "饱满", "厚重"], required: false }
+          - { label: "甜感", name: "sweetness", widget: "select", options: ["低", "中低", "中等", "中高", "高"], required: false }
+          - { label: "余韵", name: "aftertaste", widget: "string", required: false }
+          - { label: "风味标签", name: "notes", widget: "list", required: false, hint: "例如: 柑橘, 茉莉花, 蜂蜜, 巧克力" }
+      
+      # 正文内容
+      - { label: "正文内容", name: "body", widget: "markdown", required: true }

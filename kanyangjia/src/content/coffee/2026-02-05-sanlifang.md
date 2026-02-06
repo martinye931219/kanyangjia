@@ -3,6 +3,7 @@ title: "三立方美式"
 date: "2026-02-05"
 category: "daily"
 tags: ["手冲", "日常"]
+rating: 4
 coffee:
   name: "三立方美式"
   roaster: "三立方"
@@ -13,6 +14,13 @@ brewing:
   method: "意式机"
   temp: "93°C"
   ratio: "1:8"
+flavor:
+  aroma: ["坚果", "巧克力"]
+  acidity: "低"
+  body: "饱满"
+  sweetness: "中"
+  aftertaste: "坚果余韵"
+  notes: ["坚果", "巧克力", "焦糖"]
 ---
 
 ## 🫘 豆子信息

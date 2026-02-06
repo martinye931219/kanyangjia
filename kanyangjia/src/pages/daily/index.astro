@@ -1,8 +1,18 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
 
 const title = '每日复盘 - 看养家';
 const description = '人生4万天，每日记录成长';
+
+// 获取所有每日复盘文章，按日期倒序
+const dailyEntries = await getCollection('daily');
+const sortedEntries = dailyEntries.sort((a, b) => 
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+// 获取最新的文章
+const latestEntry = sortedEntries[0];
 ---
 
 <Layout title={title} description={description}>
@@ -11,21 +21,45 @@ const description = '人生4万天，每日记录成长';
     <p style="color: var(--color-muted);">人生是一场修行，每一天都算数</p>
   </div>
 
+  <!-- 最新复盘 -->
+  {latestEntry && (
+    <section style="padding: 2rem; background: linear-gradient(135deg, var(--color-card), #2a2a2a); border-radius: 12px; margin-bottom: 3rem; border: 1px solid var(--color-border);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h2 style="margin: 0;">🌟 最新复盘</h2>
+        <span style="font-size: 0.875rem; color: var(--color-muted);">{latestEntry.data.date}</span>
+      </div>
+      <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+        {latestEntry.data.mood && <span style="font-size: 1.5rem;">{latestEntry.data.mood}</span>}
+        <span style="padding: 0.25rem 0.75rem; background: var(--color-accent); color: white; border-radius: 20px; font-size: 0.75rem;">{latestEntry.data.day || '周几'}</span>
+        {latestEntry.data.tags?.map(tag => (
+          <span style="padding: 0.25rem 0.75rem; background: var(--color-border); border-radius: 20px; font-size: 0.75rem;">#{tag}</span>
+        ))}
+      </div>
+      <p style="color: var(--color-muted); margin-bottom: 1rem;">{latestEntry.data.reflection || '点击查看详情...'}</p>
+      
+      {latestEntry.data.completed && latestEntry.data.completed.length > 0 && (
+        <div style="margin-bottom: 1rem;">
+          <h4 style="font-size: 0.875rem; color: var(--color-muted); margin-bottom: 0.5rem;">✅ 今日完成</h4>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            {latestEntry.data.completed.slice(0, 3).map(item => (
+              <li style="padding: 0.25rem 0; font-size: 0.875rem;">• {item}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      
+      <a href={`/daily/${latestEntry.slug}`} style="display: inline-block; padding: 0.75rem 1.5rem; background: var(--color-accent); color: white; border-radius: 8px; font-weight: 500;">
+        查看完整复盘 →
+      </a>
+    </section>
+  )}
+
   <!-- 快速导航 -->
   <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap;">
-    <a href="#template" style="padding: 0.5rem 1rem; background: var(--color-card); border-radius: 20px; font-size: 0.875rem;">📝 复盘模板</a>
-    <a href="#entries" style="padding: 0.5rem 1rem; background: var(--color-card); border-radius: 20px; font-size: 0.875rem;">📚 历史记录</a>
-    <a href="#stats" style="padding: 0.5rem 1rem; background: var(--color-card); border-radius: 20px; font-size: 0.875rem;">📊 数据统计</a>
+    <a href="#entries" style="padding: 0.5rem 1rem; background: var(--color-card); border-radius: 20px; font-size: 0.875rem;">📚 历史记录 ({sortedEntries.length})</a>
+    <a href="#system" style="padding: 0.5rem 1rem; background: var(--color-card); border-radius: 20px; font-size: 0.875rem;">🎯 复盘体系</a>
+    <a href="#template" style="padding: 0.5rem 1rem; background: var(--color-card); border-radius: 20px; font-size: 0.875rem;">📝 模板参考</a>
   </div>
-
-  <!-- 今日入口 -->
-  <section style="padding: 2rem; background: linear-gradient(135deg, var(--color-card), #2a2a2a); border-radius: 12px; margin-bottom: 3rem; border: 1px solid var(--color-border);">
-    <h2 style="margin-bottom: 1rem;">🌟 今日复盘入口</h2>
-    <p style="color: var(--color-muted); margin-bottom: 1.5rem;">记录当下，沉淀思考</p>
-    <a href="/daily/new" style="display: inline-block; padding: 0.75rem 1.5rem; background: var(--color-accent); color: white; border-radius: 8px; font-weight: 500;">
-      + 写今日复盘
-    </a>
-  </section>
 
   <!-- 复盘体系 -->
   <section id="system" style="margin-bottom: 3rem;">
@@ -58,61 +92,76 @@ const description = '人生4万天，每日记录成长';
     </div>
   </section>
 
+  <!-- 历史记录 -->
+  <section id="entries" style="margin-bottom: 3rem;">
+    <h2 style="margin-bottom: 1.5rem; border-left: 4px solid var(--color-accent); padding-left: 1rem;">📚 历史记录</h2>
+    
+    {sortedEntries.length > 0 ? (
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        {sortedEntries.map(entry => (
+          <a href={`/daily/${entry.slug}`} style="display: block; padding: 1.5rem; background: var(--color-card); border-radius: 8px; border: 1px solid var(--color-border); text-decoration: none; color: inherit; transition: all 0.2s;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span style="font-size: 1.25rem;">{entry.data.mood || '📝'}</span>
+                <span style="font-weight: 500;">{entry.data.title}</span>
+              </div>
+              <span style="font-size: 0.75rem; color: var(--color-muted);">{entry.data.date}</span>
+            </div>
+            <p style="color: var(--color-muted); font-size: 0.875rem; margin: 0; line-height: 1.5;">
+              {entry.data.reflection || entry.body?.slice(0, 100) + '...' || '点击查看详情'}
+            </p>
+            {entry.data.tags && entry.data.tags.length > 0 && (
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem;">
+                {entry.data.tags.map(tag => (
+                  <span style="padding: 0.125rem 0.5rem; background: var(--color-border); border-radius: 12px; font-size: 0.75rem;">#{tag}</span>
+                ))}
+              </div>
+            )}
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div style="padding: 2rem; text-align: center; color: var(--color-muted); background: var(--color-card); border-radius: 8px;">
+        <p>📝 暂无记录</p>
+        <p style="font-size: 0.875rem; margin-top: 0.5rem;">开始撰写你的第一篇复盘吧！</p>
+      </div>
+    )}
+  </section>
+
   <!-- 模板说明 -->
   <section id="template" style="margin-bottom: 3rem;">
-    <h2 style="margin-bottom: 1.5rem; border-left: 4px solid var(--color-accent); padding-left: 1rem;">📝 复盘模板</h2>
+    <h2 style="margin-bottom: 1.5rem; border-left: 4px solid var(--color-accent); padding-left: 1rem;">📝 复盘模板参考</h2>
     
     <div style="padding: 1.5rem; background: var(--color-card); border-radius: 8px; overflow-x: auto;">
       <pre style="font-family: var(--font-mono); font-size: 0.875rem; line-height: 1.8; color: #ccc;"><code>---
 title: "每日人生复盘"
-date: "2026-02-05"
-day: "Day X / 12,800"
+date: "2026-02-06"
+day: "周五"
+mood: "🔥"
+tags: ["日常", "复盘"]
+completed:
+  - 完成事项1
+  - 完成事项2
+reflection: "今日反思摘要"
+tomorrow_plan:
+  - 明日计划1
+nourish:
+  coffee: "咖啡记录"
+  reading: "阅读记录"
+  exercise: "锻炼记录"
 ---
 
-## ☀️ PART 1：目标
-
-### 🔥 必须拿下 (THE ONE)
-╰┈➤ 股体系up
-
-### 🏗️ 核心项目 (BUILD)
-- 💼 [工作] 
-- 🏠 [装修] 
-- 📣 [分享] 
-
-### 🌿 能量滋养 (NOURISH)
-- ☕ [咖啡] 
-- 📚 [阅读] 
-- 🏃 [锻炼] 
-
-### 🛒 备忘 (MEMO)
-
-## 🌙 PART 2：记录
-
-### 🎯 战果盘点（TOP3）
-- **[ 核心 ]：** ____________________ 
-- **[ 事项 ]：** ____________________ 
-- **[ 事项 ]：** ____________________ 
-
-### 🧠 情绪切片（TOP3）
-* 🔥 燃-感动：
-* 🤔 思-困惑：
-* 🌧️ 丧-失望：
-
-### 🚀 明日一件事
-
-### 📎 附件 & 配图
+## 📝 今日记录
+...
 </code></pre>
     </div>
   </section>
 
-  <!-- 历史记录 -->
-  <section id="entries">
-    <h2 style="margin-bottom: 1.5rem; border-left: 4px solid var(--color-accent); padding-left: 1rem;">📚 历史记录</h2>
-    
-    <div style="padding: 2rem; text-align: center; color: var(--color-muted); background: var(--color-card); border-radius: 8px;">
-      <p>📝 暂无记录</p>
-      <p style="font-size: 0.875rem; margin-top: 0.5rem;">开始撰写你的第一篇复盘吧！</p>
-    </div>
-  </section>
-
 </Layout>
+
+<style>
+  a[href^="/daily/"]:hover {
+    border-color: var(--color-accent) !important;
+    transform: translateY(-2px);
+  }
+</style>

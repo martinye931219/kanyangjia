@@ -188,14 +188,14 @@
     "dist/index.html",
     "dist/stock/index.html",
     "dist/stock",
+    "dist/daily/2026-02-06/index.html",
+    "dist/daily/2026-02-05-template/index.html",
+    "dist/daily/2026-02-06",
     "dist/daily/index.html",
+    "dist/daily/2026-02-05-template",
     "dist/daily",
     "dist/coffee/index.html",
     "dist/coffee",
-    "dist/amc/index.html",
-    "dist/amc",
-    "dist/ai/index.html",
-    "dist/ai",
     "src/content/daily/2.md"
   ]
 }

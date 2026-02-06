@@ -1,0 +1,168 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, getEntry } from 'astro:content';
+
+// 为所有文章生成静态路径
+export async function getStaticPaths() {
+  const entries = await getCollection('daily');
+  return entries.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+const title = `${entry.data.title} - 每日复盘`;
+const description = entry.data.reflection || '每日复盘记录';
+---
+
+<Layout title={title} description={description}>
+  <article style="max-width: 800px; margin: 0 auto;">
+    <!-- 返回按钮 -->
+    <a href="../" style="display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 2rem; color: var(--color-muted); font-size: 0.875rem; text-decoration: none;">
+      ← 返回每日复盘
+    </a>
+
+    <!-- 文章头部 -->
+    <header style="margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--color-border);">
+      <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 1rem; flex-wrap: wrap;">
+        {entry.data.mood && <span style="font-size: 2rem;">{entry.data.mood}</span>}
+        <span style="padding: 0.25rem 0.75rem; background: var(--color-accent); color: white; border-radius: 20px; font-size: 0.75rem;">{entry.data.date}</span>
+        {entry.data.day && <span style="padding: 0.25rem 0.75rem; background: var(--color-border); border-radius: 20px; font-size: 0.75rem;">{entry.data.day}</span>}
+      </div>
+
+      <h1 style="margin-bottom: 1rem;">{entry.data.title}</h1>
+
+      {entry.data.tags && entry.data.tags.length > 0 && (
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          {entry.data.tags.map(tag => (
+            <span style="padding: 0.25rem 0.75rem; background: var(--color-border); border-radius: 20px; font-size: 0.875rem;">#{tag}</span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <!-- 元信息卡片 -->
+    {(entry.data.completed?.length > 0 || entry.data.reflection || entry.data.tomorrow_plan?.length > 0) && (
+      <div style="display: grid; gap: 1.5rem; margin-bottom: 3rem;">
+        
+        {entry.data.completed?.length > 0 && (
+          <div style="padding: 1.5rem; background: var(--color-card); border-radius: 12px; border: 1px solid var(--color-border);">
+            <h3 style="margin-bottom: 1rem; color: var(--color-accent);">✅ 今日完成</h3>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+              {entry.data.completed.map(item => (
+                <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--color-border); display: flex; align-items: flex-start; gap: 0.5rem;">
+                  <span>✓</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {entry.data.reflection && (
+          <div style="padding: 1.5rem; background: var(--color-card); border-radius: 12px; border: 1px solid var(--color-border);">
+            <h3 style="margin-bottom: 1rem; color: var(--color-accent);">💭 今日反思</h3>
+            <p style="margin: 0; line-height: 1.8;">{entry.data.reflection}</p>
+          </div>
+        )}
+
+        {entry.data.tomorrow_plan?.length > 0 && (
+          <div style="padding: 1.5rem; background: var(--color-card); border-radius: 12px; border: 1px solid var(--color-border);">
+            <h3 style="margin-bottom: 1rem; color: var(--color-accent);">🚀 明日计划</h3>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+              {entry.data.tomorrow_plan.map(item => (
+                <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--color-border); display: flex; align-items: flex-start; gap: 0.5rem;">
+                  <span>○</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {(entry.data.nourish?.coffee || entry.data.nourish?.reading || entry.data.nourish?.exercise) && (
+          <div style="padding: 1.5rem; background: var(--color-card); border-radius: 12px; border: 1px solid var(--color-border);">
+            <h3 style="margin-bottom: 1rem; color: var(--color-accent);">🌿 能量滋养</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+              {entry.data.nourish?.coffee && (
+                <div>
+                  <span style="font-size: 1.25rem;">☕</span>
+                  <span style="font-size: 0.875rem; color: var(--color-muted);"> {entry.data.nourish.coffee}</span>
+                </div>
+              )}
+              {entry.data.nourish?.reading && (
+                <div>
+                  <span style="font-size: 1.25rem;">📚</span>
+                  <span style="font-size: 0.875rem; color: var(--color-muted);"> {entry.data.nourish.reading}</span>
+                </div>
+              )}
+              {entry.data.nourish?.exercise && (
+                <div>
+                  <span style="font-size: 1.25rem;">🏃</span>
+                  <span style="font-size: 0.875rem; color: var(--color-muted);"> {entry.data.nourish.exercise}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    )}
+
+    <!-- 正文内容 -->
+    <div class="content-body" style="line-height: 1.8;">
+      <Content />
+    </div>
+
+    <!-- 底部导航 -->
+    <footer style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--color-border); text-align: center;">
+      <a href="../" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; background: var(--color-card); border-radius: 8px; text-decoration: none; color: inherit; border: 1px solid var(--color-border);">
+        ← 返回每日复盘列表
+      </a>
+    </footer>
+  </article>
+</Layout>
+
+<style>
+  .content-body :global(h2) {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .content-body :global(h3) {
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-accent);
+  }
+  .content-body :global(p) {
+    margin-bottom: 1rem;
+  }
+  .content-body :global(ul), .content-body :global(ol) {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+  .content-body :global(li) {
+    margin-bottom: 0.5rem;
+  }
+  .content-body :global(blockquote) {
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    border-left: 4px solid var(--color-accent);
+    background: var(--color-card);
+    font-style: italic;
+  }
+  .content-body :global(pre) {
+    background: #1a1a1a;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1rem 0;
+  }
+  .content-body :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+  }
+</style>

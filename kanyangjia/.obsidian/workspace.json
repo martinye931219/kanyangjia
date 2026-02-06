@@ -194,8 +194,9 @@
     "dist/coffee.html",
     "dist/amc.html",
     "dist/ai.html",
+    "dist/manifest_CPYK8dsy.mjs",
     "dist/renderers.mjs",
-    "dist/noop-entrypoint.mjs",
+    "OBSIDIAN_SYNC.md",
     "src/content/daily/2.md"
   ]
 }

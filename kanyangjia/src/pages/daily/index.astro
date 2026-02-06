@@ -48,7 +48,7 @@ const latestEntry = sortedEntries[0];
         </div>
       )}
       
-      <a href={`./${latestEntry.slug}.html`} style="display: inline-block; padding: 0.75rem 1.5rem; background: var(--color-accent); color: white; border-radius: 8px; font-weight: 500;">
+      <a href={`./daily/${latestEntry.slug}.html`} style="display: inline-block; padding: 0.75rem 1.5rem; background: var(--color-accent); color: white; border-radius: 8px; font-weight: 500;">
         查看完整复盘 →
       </a>
     </section>
@@ -99,7 +99,7 @@ const latestEntry = sortedEntries[0];
     {sortedEntries.length > 0 ? (
       <div style="display: flex; flex-direction: column; gap: 1rem;">
         {sortedEntries.map(entry => (
-          <a href={`./${entry.slug}.html`} style="display: block; padding: 1.5rem; background: var(--color-card); border-radius: 8px; border: 1px solid var(--color-border); text-decoration: none; color: inherit; transition: all 0.2s;">
+          <a href={`./daily/${entry.slug}.html`} style="display: block; padding: 1.5rem; background: var(--color-card); border-radius: 8px; border: 1px solid var(--color-border); text-decoration: none; color: inherit; transition: all 0.2s;">
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
               <div style="display: flex; align-items: center; gap: 0.5rem;">
                 <span style="font-size: 1.25rem;">{entry.data.mood || '📝'}</span>

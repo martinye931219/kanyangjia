@@ -194,8 +194,8 @@
     "dist/coffee.html",
     "dist/amc.html",
     "dist/ai.html",
-    "dist/manifest_B2yr3DU-.mjs",
-    "dist/renderers.mjs",
+    "dist/chunks/sharp_By1NTYio.mjs",
+    "dist/chunks/content-modules_Dz-S_Wwv.mjs",
     "src/content/daily/2.md"
   ]
 }

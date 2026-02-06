@@ -186,16 +186,16 @@
   "active": "89ba246193a0b9ce",
   "lastOpenFiles": [
     "dist/index.html",
-    "dist/stock/index.html",
-    "dist/stock",
-    "dist/daily/2026-02-06/index.html",
-    "dist/daily/2026-02-05-template/index.html",
-    "dist/daily/index.html",
-    "dist/daily/2026-02-06",
-    "dist/daily/2026-02-05-template",
+    "dist/stock.html",
+    "dist/daily.html",
+    "dist/daily/2026-02-05-template.html",
+    "dist/daily/2026-02-06.html",
     "dist/daily",
-    "dist/coffee/index.html",
-    "dist/coffee",
+    "dist/coffee.html",
+    "dist/amc.html",
+    "dist/ai.html",
+    "dist/chunks/sharp_By1NTYio.mjs",
+    "dist/chunks/content-modules_Dz-S_Wwv.mjs",
     "src/content/daily/2.md"
   ]
 }

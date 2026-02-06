@@ -6,7 +6,8 @@ export default defineConfig({
   base: '/kanyangjia',
   output: 'static',
   build: {
-    format: 'directory'
+    format: 'file',
+    assets: '_assets'
   },
   markdown: {
     shikiConfig: {

@@ -194,8 +194,8 @@
     "dist/coffee.html",
     "dist/amc.html",
     "dist/ai.html",
-    "dist/chunks/sharp_By1NTYio.mjs",
-    "dist/chunks/content-modules_Dz-S_Wwv.mjs",
+    "dist/renderers.mjs",
+    "dist/noop-entrypoint.mjs",
     "src/content/daily/2.md"
   ]
 }

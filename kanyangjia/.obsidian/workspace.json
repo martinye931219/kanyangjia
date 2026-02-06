@@ -188,14 +188,14 @@
     "dist/index.html",
     "dist/stock.html",
     "dist/daily.html",
-    "dist/daily/2026-02-05-template.html",
     "dist/daily/2026-02-06.html",
+    "dist/daily/2026-02-05-template.html",
     "dist/daily",
     "dist/coffee.html",
     "dist/amc.html",
     "dist/ai.html",
-    "dist/chunks/sharp_By1NTYio.mjs",
-    "dist/chunks/content-modules_Dz-S_Wwv.mjs",
+    "dist/manifest_B2yr3DU-.mjs",
+    "dist/renderers.mjs",
     "src/content/daily/2.md"
   ]
 }

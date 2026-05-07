@@ -1,0 +1,93 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const title = '选股池 - 看养家';
+const description = '市场报告精选个股跟踪池';
+
+interface Stock {
+  id: number;
+  stock_name: string;
+  reason: string;
+  status: string;
+  notes: string;
+  stock_code: string;
+  created_at: string;
+}
+
+const stocks: Stock[] = [
+  { id: 1, stock_name: '海光信息', stock_code: '', reason: 'CPU方向锚，单柜配比提升逻辑，乖离值或突破50%', status: '关注中', notes: '2026-05-06 晚间报告', created_at: '2026-05-06T21:08:57.367466+08:00' },
+  { id: 2, stock_name: '中国长城', stock_code: '', reason: 'CPU方向一字板涨停，假期资金吹爆', status: '关注中', notes: '2026-05-06 晚间报告', created_at: '2026-05-06T21:08:57.367466+08:00' },
+  { id: 3, stock_name: '澜起科技', stock_code: '', reason: '单柜配比提升逻辑获机构重视，AMD服务器CPU配比从4:1提升到2:1/1:1', status: '关注中', notes: '2026-05-06 晚间报告', created_at: '2026-05-06T21:08:57.367466+08:00' },
+  { id: 4, stock_name: '通富微电', stock_code: '', reason: 'AMD封测大客户，正宗海外高端CPU产业链', status: '关注中', notes: '2026-05-06 晚间报告', created_at: '2026-05-06T21:08:57.367466+08:00' },
+  { id: 5, stock_name: '芯原股份', stock_code: '', reason: 'ASIC芯片中少有的订单出彩公司，中线持有', status: '关注中', notes: '2026-05-06 晚间报告', created_at: '2026-05-06T21:08:57.367466+08:00' },
+  { id: 6, stock_name: '信维通信', stock_code: '', reason: 'Space X链领头羊，商业航天催化未落地', status: '关注中', notes: '2026-05-06 晚间报告', created_at: '2026-05-06T21:08:57.367466+08:00' },
+  { id: 7, stock_name: '东方国信', stock_code: '', reason: 'AIDC前排股20cm涨停创新高，科技线低位分支高低切受益', status: '关注中', notes: '2026-05-06 晚间报告', created_at: '2026-05-06T21:08:57.367466+08:00' },
+  { id: 8, stock_name: '润泽科技', stock_code: '', reason: 'AIDC回踩买点结构，偏绿盘可加仓', status: '关注中', notes: '2026-05-06 晚间报告', created_at: '2026-05-06T21:08:57.367466+08:00' },
+  { id: 9, stock_name: '润建股份', stock_code: '', reason: '算力token工厂模式具稀缺性，五象云谷二期360MW+300亿融资', status: '关注中', notes: '2026-05-06 晚间报告', created_at: '2026-05-06T21:08:57.367466+08:00' },
+  { id: 10, stock_name: '联德股份', stock_code: '', reason: '北美电网方向，走势标准贴中期均线往上爬', status: '关注中', notes: '2026-05-06 晚间报告', created_at: '2026-05-06T21:08:57.367466+08:00' },
+];
+
+function getStatusColor(status: string): string {
+  switch (status) {
+    case '关注中': return '#3498db';
+    case '已建仓': return '#27ae60';
+    case '已止盈': return '#e67e22';
+    case '已止损': return '#e74c3c';
+    default: return '#95a5a6';
+  }
+}
+
+function formatDate(dateStr: string): string {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
+}
+---
+
+<Layout title={title} description={description}>
+  <div style="margin-bottom: 2rem;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+      <a href="/kanyangjia/stock.html" style="color: var(--color-muted); font-size: 0.9rem; text-decoration: none;">← 返回股票</a>
+    </div>
+    <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">📋 选股池</h1>
+    <p style="color: var(--color-muted);">市场报告精选个股跟踪 · 共 {stocks.length} 只 · 更新于 {formatDate(stocks[0]?.created_at || '')}</p>
+  </div>
+
+  <!-- 状态筛选 -->
+  <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+    {['全部', '关注中', '已建仓', '已止盈', '已止损'].map(status => (
+      <span style="padding: 0.4rem 1rem; border-radius: 20px; background: var(--color-card); border: 1px solid var(--color-border); cursor: pointer; font-size: 0.9rem; color: status === '全部' ? '#fff' : 'var(--color-text)', background: status === '全部' ? 'var(--color-accent)' : 'var(--color-card)'}">{status}</span>
+    ))}
+  </div>
+
+  <!-- 选股池表格 -->
+  <div style="background: var(--color-card); border-radius: 12px; border: 1px solid var(--color-border); overflow: hidden;">
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+        <thead>
+          <tr style="background: #f8f9fa; border-bottom: 2px solid var(--color-border);">
+            <th style="padding: 1rem 1.5rem; text-align: left; font-weight: 600;">股票名称</th>
+            <th style="padding: 1rem 1.5rem; text-align: left; font-weight: 600;">状态</th>
+            <th style="padding: 1rem 1.5rem; text-align: left; font-weight: 600; min-width: 300px;">关注逻辑</th>
+            <th style="padding: 1rem 1.5rem; text-align: left; font-weight: 600;">来源</th>
+          </tr>
+        </thead>
+        <tbody>
+          {stocks.map((stock, i) => (
+            <tr style={`border-bottom: 1px solid var(--color-border); ${i % 2 === 0 ? 'background: #fafafa' : 'background: #fff'}`}>
+              <td style="padding: 1rem 1.5rem; font-weight: 600;">{stock.stock_name}</td>
+              <td style="padding: 1rem 1.5rem;">
+                <span style="display: inline-block; padding: 0.2rem 0.7rem; border-radius: 12px; font-size: 0.8rem; color: #fff; background: {getStatusColor(stock.status)};">{stock.status}</span>
+              </td>
+              <td style="padding: 1rem 1.5rem; color: #555; max-width: 400px;">{stock.reason}</td>
+              <td style="padding: 1rem 1.5rem; color: var(--color-muted); font-size: 0.85rem;">{stock.notes}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div style="margin-top: 1.5rem; padding: 1rem; background: #fff3cd; border-radius: 8px; border: 1px solid #ffc107; font-size: 0.85rem; color: #856404;">
+    ⚠️ 本页面数据来源于群聊报告整理，仅供投资参考，不构成投资建议。
+  </div>
+</Layout>
